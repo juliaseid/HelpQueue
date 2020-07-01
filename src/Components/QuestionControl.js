@@ -16,46 +16,7 @@ class QuestionControl extends React.Component {
     };
     this.formViewClick = this.formViewClick.bind(this);
   }
-  listViewClick() {      //ticket 
-    let listVisible;
-    switch (this.state.listVisible) {
-      case (true):
-        listVisible = false;
-        break;
-      case (false):
-        listVisible = true;
-        break;
-      default:
-        listVisible = this.state.listVisible;
-        break;
-    }
 
-    this.setState({ listVisible });
-  }
-
-  formViewClick() {       //question
-    let formVisibleOnPage;
-    switch (this.state.formVisibleOnPage) {
-      case (true):
-        formVisibleOnPage = false;
-        break;
-      case (false):
-        formVisibleOnPage = true;
-        break;
-      default:
-        formVisibleOnPage = this.state.formVisibleOnPage;
-        break;
-    }
-    this.setState({ formVisibleOnPage });
-  }
-
-  handleAddingNewTicketToList = (newTicket) => {
-    const newMasterTicketList = this.state.masterTicketList.concat(newTicket);
-    this.setState({
-      masterTicketList: newMasterTicketList,
-      formVisibleOnPage: false
-    });
-  }
 
   clickNextQuestion = () => {
     this.setState((prevState) => ({
@@ -63,7 +24,7 @@ class QuestionControl extends React.Component {
     }));
   };
 
-  displayQuestion = () => {        //question
+  displayQuestion = () => {        //which question?
     if (this.state.questionVisible === 1) {
       return {
         questionText: "Have you gone through all the steps on the Learn How to Program debugging lesson?",
@@ -81,6 +42,52 @@ class QuestionControl extends React.Component {
       };
     }
   }
+
+
+  formViewClick() {       //question or form?
+    let formVisibleOnPage;
+    switch (this.state.formVisibleOnPage) {
+      case (true):
+        formVisibleOnPage = false;
+        break;
+      case (false):
+        formVisibleOnPage = true;
+        break;
+      default:
+        formVisibleOnPage = this.state.formVisibleOnPage;
+        break;
+    }
+    this.setState({ formVisibleOnPage });
+  }
+
+
+  handleAddingNewTicketToList = (newTicket) => {
+    const newMasterTicketList = this.state.masterTicketList.concat(newTicket);
+    this.setState({
+      masterTicketList: newMasterTicketList,
+      formVisibleOnPage: false
+    });
+  }
+
+
+  listViewClick() {      //form or list? 
+    let listVisible;
+    switch (this.state.listVisible) {
+      case (true):
+        listVisible = false;
+        break;
+      case (false):
+        listVisible = true;
+        break;
+      default:
+        listVisible = this.state.listVisible;
+        break;
+    }
+
+    this.setState({ listVisible });
+  }
+
+
 
   setVisibility = () => {
 

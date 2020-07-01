@@ -1,6 +1,7 @@
 import React from 'react';
 import NewTicketForm from './NewTicketForm';
 import TicketList from './TicketList';
+import TicketDetail from './TicketDetail'
 
 class TicketControl extends React.Component {
 
@@ -8,7 +9,8 @@ class TicketControl extends React.Component {
     super(props);
     this.state = {
       formVisibleOnPage: true,
-      masterTicketList: []
+      masterTicketList: [],
+      selectedTicket: null
     };
   }
 
@@ -26,20 +28,33 @@ class TicketControl extends React.Component {
     });
   }
 
+  handleChangingSelectedTicket = (id) => {
+    const selectedTicket = this.state.masterTicketList.filter(ticket => ticket.id === id)[0];
+    this.setState({ selectedTicket: selectedTicket });
+  }
+
   render() {
     let currentlyVisibleState = null;
-    if (this.state.formVisibleOnPage) {
+    let buttonText = null;
+
+    if (this.state.selectedTicket != null) {
+      currentlyVisibleState = <TicketDetail ticket={this.state.selectedTicket} />
+      buttonText = "Return to Ticket List";
+      // While our TicketDetail component only takes placeholder data, we will eventually be passing the value of selectedTicket as a prop.
+    }
+    else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />
-      // buttonText = "Return to Ticket List";
+      buttonText = "Return to Ticket List";
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} />; // new code
-      // buttonText = "Add Ticket";
+      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket} />;
+      buttonText = "Add Ticket";
     }
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        {/* {addTicketButton} */}
+        <button onClick={this.handleClick}>{buttonText}</button>
       </React.Fragment>
+
     );
 
   }
